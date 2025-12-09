@@ -1,3 +1,4 @@
+
 #include "Game.h"
 #include "Actor.h"
 #include "Ship.h"
@@ -7,8 +8,10 @@
 
 Game::Game()
 	:mIsRunning(true)
-	,mWindow(nullptr)
-	,mRenderer(nullptr) {
+	, mWindow(nullptr)
+	, mRenderer(nullptr)
+	, mUpdatingActors(false)
+{
 
 }
 
@@ -65,10 +68,20 @@ void Game::ProcessInput() {
 		mIsRunning = false;
 	}
 
+	// ループ中の追加を防ぐためフラグを立てる
+	mUpdatingActors = true;
 	for (auto actor : mActors) {
 		actor->ProcessInput(state);
 	}
+	mUpdatingActors = false;
 
+	// 保留中の追加を mActors に移す
+	if (!mPendingActors.empty()) {
+		for (auto pending : mPendingActors) {
+			mActors.emplace_back(pending);
+		}
+		mPendingActors.clear();
+	}
 }
 
 void Game::UpdateGame() {
@@ -77,13 +90,24 @@ void Game::UpdateGame() {
 	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0;
 
 	if (deltaTime > 0.05f) {
-		deltaTime = 0.05f;	
+		deltaTime = 0.05f;
 	}
 
 	mTicksCount = SDL_GetTicks();
 
+	// ここもループ中に追加される可能性があるのでフラグを立てる
+	mUpdatingActors = true;
 	for (auto actor : mActors) {
 		actor->Update(deltaTime);
+	}
+	mUpdatingActors = false;
+
+	// 保留中の追加を mActors に移す
+	if (!mPendingActors.empty()) {
+		for (auto pending : mPendingActors) {
+			mActors.emplace_back(pending);
+		}
+		mPendingActors.clear();
 	}
 }
 void Game::GenerateOutput() {
@@ -104,11 +128,16 @@ void Game::LoadData() {
 }
 
 void Game::AddActor(Actor* actor) {
-	mActors.emplace_back(actor);
-}	
+	if (mUpdatingActors) {
+		mPendingActors.emplace_back(actor);
+	}
+	else {
+		mActors.emplace_back(actor);
+	}
+}
 
 void Game::RemoveActor(Actor* actor) {
-	
+
 }
 
 void Game::AddSprite(SpriteComponent* sprite) {
@@ -140,9 +169,9 @@ SDL_Texture* Game::GetTexture(const std::string& fileName) {
 		}
 
 		tex = SDL_CreateTextureFromSurface(mRenderer, suf);
-		
+
 		SDL_FreeSurface(suf);
-		
+
 		if (!suf) {
 			return nullptr;
 		}

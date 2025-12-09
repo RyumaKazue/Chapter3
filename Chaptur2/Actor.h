@@ -21,7 +21,7 @@ public:
 	virtual void InputActor(const Uint8* keyState);
 	void AddComponent(Component* comp);
 	Vector2 GetForward() const { return Vector2(cosf(mRotation), -sinf(mRotation)); };
-private:
+protected:
 	Game* mGame;
 	Vector2 mPosition;
 	Vector2 mScale;

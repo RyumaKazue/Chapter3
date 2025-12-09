@@ -5,6 +5,7 @@
 #include "BGSpriteComponent.h"
 #include "SDL_image.h"
 #include "InputComponent.h"
+#include "Laser.h"
 
 Ship::Ship(Game* game)
 	: Actor(game)
@@ -33,7 +34,13 @@ Ship::Ship(Game* game)
 }
 
 void Ship::InputActor(const Uint8* keyState) {
-
+	if(keyState[SDL_SCANCODE_SPACE]) {
+		//ƒŒ[ƒU[”­ŽË
+		Actor* laser = new Laser(GetGame());
+		Vector2 laserPos = mPosition + GetForward() * 50.0f;
+		laser->SetPosition(laserPos);
+		laser->SetRotation(mRotation);
+	}
 }
 
 void Ship::UpdateActor(float deltaTime) {
