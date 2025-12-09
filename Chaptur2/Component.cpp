@@ -8,6 +8,10 @@ Component::Component(Actor* actor, int order)
 	actor->AddComponent(this);
 }
 
+Component::~Component() {
+	mActor->RemoveComponent(this);
+}
+
 void Component::Update(float deltaTime) {
 
 }

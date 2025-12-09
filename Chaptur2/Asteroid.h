@@ -1,18 +1,16 @@
 #pragma once
 #include "Actor.h"
 #include "CircleComponent.h"
-
-class Laser :
+class Asteroid :
     public Actor
 {
 public:
-    Laser(class Game* game);
+    Asteroid(class Game* game);
+    ~Asteroid();
     void UpdateActor(float deltaTime) override;
-    void InputActor(const Uint8* keyState) override;
     CircleComponent* GetCircleComponent() const { return mCircleComponent; };
+
 private:
-    float regularSpeed = 100.0f;
-    CircleComponent* mCircleComponent;
-    
+	CircleComponent* mCircleComponent;
 };
 

@@ -5,6 +5,7 @@
 class Component {
 public:
 	Component(class Actor* actor, int order);
+	virtual ~Component();
 	virtual void Update(float deltaTime);
 	virtual void ProcessInput(const Uint8* keyState);
 	const Actor* GetActor() const { return mActor; };

@@ -9,6 +9,10 @@ SpriteComponent::SpriteComponent(Actor* actor, int drawOrder)
 	actor->GetGame()->AddSprite(this);
 }
 
+SpriteComponent::~SpriteComponent() {
+	mActor->GetGame()->RemoveSprite(this);
+}
+
 void SpriteComponent::Draw(SDL_Renderer* renderer) {
 	SDL_Rect rect;
 	rect.w = mWidth;

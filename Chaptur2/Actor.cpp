@@ -4,13 +4,29 @@
 
 Actor::Actor(class Game* game)
 	:mGame(game)
+	,mState(EActive)
 	,mPosition(Vector2())
 	, mRotation(0.0f)
 {
 	game->AddActor(this);
 }
 
+Actor::~Actor() {
+	mGame->RemoveActor(this);
+	// コンポーネントを削除
+	while (!mComponents.empty()) {
+		delete mComponents.back();
+	}
+}
+
 void Actor::AddComponent(Component* comp){ mComponents.push_back(comp); }
+
+void Actor::RemoveComponent(Component* comp) {
+	auto iter = std::find(mComponents.begin(), mComponents.end(), comp);
+	if (iter != mComponents.end()) {
+		mComponents.erase(iter);
+	}
+}
 
 void Actor::Update(float deltaTime) {
 	UpdateComponents(deltaTime);

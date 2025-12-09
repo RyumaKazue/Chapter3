@@ -5,6 +5,8 @@
 #include "SDL.h"
 #include "SpriteComponent.h"
 #include "SDL_image.h"
+#include "Asteroid.h"
+#include <random>
 
 Game::Game()
 	:mIsRunning(true)
@@ -97,7 +99,7 @@ void Game::UpdateGame() {
 
 	// ここもループ中に追加される可能性があるのでフラグを立てる
 	mUpdatingActors = true;
-	for (auto actor : mActors) {
+	for (auto* actor : mActors) {
 		actor->Update(deltaTime);
 	}
 	mUpdatingActors = false;
@@ -108,6 +110,18 @@ void Game::UpdateGame() {
 			mActors.emplace_back(pending);
 		}
 		mPendingActors.clear();
+	}
+
+	std::vector<Actor*> deadActors;
+	// 死んだアクターを削除
+	for (auto actor : mActors) {
+		if (actor->GetState() == Actor::EDead) {
+			deadActors.emplace_back(actor);
+		}
+	}
+
+	for (auto* actor : deadActors) {
+		delete actor;
 	}
 }
 void Game::GenerateOutput() {
@@ -125,6 +139,15 @@ void Game::LoadData() {
 	Ship* ship = new Ship(this);
 	ship->SetPosition(Vector2(512.0f, 384.0f));
 	ship->SetMaxSpeed(300, 300);
+
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_real_distribution<float> dist(0.0f, 768.0f);
+
+	for (auto i = 0; i < 20; ++i) {
+		Asteroid* asteroid = new Asteroid(this);
+		asteroid->SetPosition(Vector2(dist(mt), dist(mt)));
+	}
 }
 
 void Game::AddActor(Actor* actor) {
@@ -137,7 +160,28 @@ void Game::AddActor(Actor* actor) {
 }
 
 void Game::RemoveActor(Actor* actor) {
+	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
+	if (iter != mPendingActors.end()) {
+		std::iter_swap(iter, mPendingActors.end() - 1);
+		mPendingActors.pop_back();
+	}
 
+	iter = std::find(mActors.begin(), mActors.end(), actor);
+	if (iter != mActors.end()) {
+		std::iter_swap(iter, mActors.end() - 1);
+		mActors.pop_back();
+	}
+}
+
+void Game::AddAsteroid(Asteroid* asteroid) {
+	mAsteroids.emplace_back(asteroid);
+}
+
+void Game::RemoveAsteroid(Asteroid* asteroid) {
+	auto iter = std::find(mAsteroids.begin(), mAsteroids.end(), asteroid);
+	if (iter != mAsteroids.end()) {
+		mAsteroids.erase(iter);
+	}
 }
 
 void Game::AddSprite(SpriteComponent* sprite) {
@@ -153,7 +197,10 @@ void Game::AddSprite(SpriteComponent* sprite) {
 }
 
 void Game::RemoveSprite(SpriteComponent* sprite) {
-
+	auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
+	if (iter != mSprites.end()) {
+		mSprites.erase(iter);
+	}
 }
 
 SDL_Texture* Game::GetTexture(const std::string& fileName) {
