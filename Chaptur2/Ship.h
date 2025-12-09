@@ -23,6 +23,9 @@ private:
 	int mMaxHorizontalSpeed;
 	int mMaxVerticalSpeed;
 
+	int mLaserCooldown = 0;
+	int mMaxLaserCooldown = 30;
+
 	void SetSpeed(const int horizontalSpeed, const int verticalSpeed) {
 		mHorizontalSpeed = horizontalSpeed;
 		mVerticalSpeed = verticalSpeed;

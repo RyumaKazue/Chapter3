@@ -34,15 +34,16 @@ Ship::Ship(Game* game)
 }
 
 void Ship::InputActor(const Uint8* keyState) {
-	if(keyState[SDL_SCANCODE_SPACE]) {
+	if(keyState[SDL_SCANCODE_SPACE] && mLaserCooldown < 0) {
 		//ƒŒ[ƒU[”­ŽË
 		Actor* laser = new Laser(GetGame());
 		Vector2 laserPos = mPosition + GetForward() * 50.0f;
 		laser->SetPosition(laserPos);
 		laser->SetRotation(mRotation);
+		mLaserCooldown = mMaxLaserCooldown;
 	}
 }
 
 void Ship::UpdateActor(float deltaTime) {
-
+	mLaserCooldown--;
 }
