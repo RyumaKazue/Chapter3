@@ -9,25 +9,8 @@ public:
 
 	void InputActor(const Uint8* keyState);
 
-	void SetMaxSpeed(const int maxHorizontalSpeed, const int maxVerticalSpeed) {
-		mMaxHorizontalSpeed = maxHorizontalSpeed;
-		mMaxVerticalSpeed = maxVerticalSpeed;
-	};
-
-
 
 private:
-	int mHorizontalSpeed;
-	int mVerticalSpeed;
-
-	int mMaxHorizontalSpeed;
-	int mMaxVerticalSpeed;
-
 	int mLaserCooldown = 0;
 	int mMaxLaserCooldown = 30;
-
-	void SetSpeed(const int horizontalSpeed, const int verticalSpeed) {
-		mHorizontalSpeed = horizontalSpeed;
-		mVerticalSpeed = verticalSpeed;
-	};
 };

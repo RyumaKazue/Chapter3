@@ -64,8 +64,9 @@ void Game::ProcessInput() {
 		}
 	}
 
-
+	//‰Ÿ‚³‚ê‚½ƒL[‚ðŽæ“¾
 	const Uint8* state = SDL_GetKeyboardState(NULL);
+
 	if (state[SDL_SCANCODE_ESCAPE]) {
 		mIsRunning = false;
 	}
@@ -76,14 +77,6 @@ void Game::ProcessInput() {
 		actor->ProcessInput(state);
 	}
 	mUpdatingActors = false;
-
-	// •Û—¯’†‚Ì’Ç‰Á‚ð mActors ‚ÉˆÚ‚·
-	if (!mPendingActors.empty()) {
-		for (auto pending : mPendingActors) {
-			mActors.emplace_back(pending);
-		}
-		mPendingActors.clear();
-	}
 }
 
 void Game::UpdateGame() {
@@ -138,7 +131,6 @@ void Game::GenerateOutput() {
 void Game::LoadData() {
 	Ship* ship = new Ship(this);
 	ship->SetPosition(Vector2(512.0f, 384.0f));
-	ship->SetMaxSpeed(300, 300);
 
 	std::random_device rd;
 	std::mt19937 mt(rd());

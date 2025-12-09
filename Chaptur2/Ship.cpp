@@ -8,9 +8,7 @@
 #include "Laser.h"
 
 Ship::Ship(Game* game)
-	: Actor(game)
-	, mHorizontalSpeed(0)
-	, mVerticalSpeed(0) {
+	: Actor(game) {
 	// スプライトコンポーネントを追加
 	SpriteComponent* sp = new SpriteComponent(this, 100);
 	sp->SetSize(64, 64);

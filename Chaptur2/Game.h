@@ -28,16 +28,18 @@ private:
 	void ProcessInput();
 	void UpdateGame();
 	void GenerateOutput();
-	bool mIsRunning;
+
 	SDL_Window* mWindow;
 	SDL_Renderer* mRenderer;
+
 	std::vector<class Actor*> mActors;
 	std::vector<class Actor*> mPendingActors;
 	std::vector<class SpriteComponent*> mSprites;
 	std::vector<class Asteroid*> mAsteroids;
-
 	std::unordered_map<std::string, SDL_Texture*> mTextures;
+	
 	float mTicksCount;
 	void LoadData();
 	bool mUpdatingActors;
+	bool mIsRunning;
 };

@@ -16,9 +16,12 @@ public:
 
 	Actor(class Game* game);
 	virtual ~Actor();
+
 	void Update(float deltaTime);
+	
 	void ProcessInput(const Uint8* keyState);
 	void UpdateComponents(float deltaTime);
+	void InputComponents(const Uint8* keyState);
 	virtual void UpdateActor(float deltaTime);
 	Vector2 GetPosition() const { return mPosition; };
 	void SetPosition(const Vector2 pos) { mPosition = pos; };
