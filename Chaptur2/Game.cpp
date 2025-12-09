@@ -129,19 +129,21 @@ void Game::RemoveSprite(SpriteComponent* sprite) {
 
 SDL_Texture* Game::GetTexture(const std::string& fileName) {
 	SDL_Texture* tex = nullptr;
-
 	auto iter = mTextures.find(fileName);
 	if (iter != mTextures.end()) {
 		tex = iter->second;
 	}
 	else {
-		SDL_Surface* surf = IMG_Load(fileName.c_str());
-		if (!surf) {
+		SDL_Surface* suf = IMG_Load(fileName.c_str());
+		if (!suf) {
 			return nullptr;
 		}
-		tex = SDL_CreateTextureFromSurface(mRenderer, surf);
-		SDL_FreeSurface(surf);
-		if (!tex) {
+
+		tex = SDL_CreateTextureFromSurface(mRenderer, suf);
+		
+		SDL_FreeSurface(suf);
+		
+		if (!suf) {
 			return nullptr;
 		}
 

@@ -5,6 +5,7 @@
 Actor::Actor(class Game* game)
 	:mGame(game)
 	,mPosition(Vector2())
+	, mRotation(0.0f)
 {
 	game->AddActor(this);
 }

@@ -9,7 +9,7 @@ public:
 	virtual void ProcessInput(const Uint8* keyState);
 	const Actor* GetActor() const { return mActor; };
 	int GetOrder() const { return mOrder; };
-private:
+protected:
 	int mOrder;
 	Actor* mActor;
 };

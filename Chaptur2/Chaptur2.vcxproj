@@ -135,6 +135,8 @@ xcopy "C:\SDL_image\lib\$(PlatformShortName)\SDL2_image.dll" "$(OutDir)" /i /s /
     <ClCompile Include="Chaptur2.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="InputComponent.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -144,6 +146,8 @@ xcopy "C:\SDL_image\lib\$(PlatformShortName)\SDL2_image.dll" "$(OutDir)" /i /s /
     <ClInclude Include="BGSpriteComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Vector2.h" />
